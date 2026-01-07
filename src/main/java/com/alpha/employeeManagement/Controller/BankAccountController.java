@@ -19,7 +19,6 @@ public class BankAccountController {
 	@PostMapping("/assigningBankAccount")
 	public ResponseEntity<BankAccount> assignBankAccount(@RequestParam int id , @RequestBody BankAccount bankAccount) {
 		
-		
 		return ResponseEntity.ok(bankaccountservice.assignBankAccount(id, bankAccount));
 	}
 }

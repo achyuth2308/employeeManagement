@@ -1,6 +1,5 @@
 package com.alpha.employeeManagement.Service;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,7 @@ public class BankAccountService {
 
     public BankAccount assignBankAccount(int id, BankAccount bankAccount) {
 
-    	Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    	Employee employee = employeeRepository.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
 
         if (bankAccountRepository.findById(id).isPresent()) {
             throw new RuntimeException("Employee already has a bank account");

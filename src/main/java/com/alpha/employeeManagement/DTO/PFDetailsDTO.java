@@ -14,7 +14,6 @@ public class PFDetailsDTO {
         this.employeeId = employeeId;
     }
 
-    // Getters and Setters
     public String getUanNumber() { return uanNumber; }
     public void setUanNumber(String uanNumber) { this.uanNumber = uanNumber; }
 
