@@ -1,5 +1,9 @@
 package com.alpha.employeeManagement;
 
+import java.util.Optional;
+
+import com.alpha.employeeManagement.Entity.Employee;
+
 public class ResponseStructure <T> {
 	
 	private int statuscode;
@@ -34,6 +38,10 @@ public class ResponseStructure <T> {
 	}
 	public ResponseStructure() {
 		super();
+	}
+	public void setData(Optional<Employee> e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
