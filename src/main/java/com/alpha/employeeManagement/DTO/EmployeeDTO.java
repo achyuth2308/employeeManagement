@@ -1,37 +1,22 @@
-package com.alpha.employeeManagement.Entity;
+package com.alpha.employeeManagement.DTO;
 
-import org.springframework.validation.annotation.Validated;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity
-public class Employee {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+public class EmployeeDTO{
+
 	private String name;
 	private int age;
 	private String role;
 	private int salary;
+	
+	@Size(min = 10, max = 10, message = "Enter proper mobile number")
 	private String mobileno;
+	
+	@Email(message = "Entered email is not valid")
 	private String email;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	
 	public String getName() {
 		return name;
 	}
@@ -68,7 +53,7 @@ public class Employee {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Employee(String name, int age, String role, int salary, String mobileno, String email) {
+	public EmployeeDTO(String name, int age, String role, int salary, @Size(min = 10, max = 10, message = "Enter proper mobile number") String mobileno, String email) {
 		super();
 		this.name = name;
 		this.age = age;
@@ -77,16 +62,16 @@ public class Employee {
 		this.mobileno = mobileno;
 		this.email = email;
 	}
-	public Employee() {
+	public EmployeeDTO() {
 		super();
 	}
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", age=" + age + ", role=" + role + ", salary=" + salary
+		return "EmployeeDTO [name=" + name + ", age=" + age + ", role=" + role + ", salary=" + salary
 				+ ", mobileno=" + mobileno + ", email=" + email + "]";
 	}
 	
 	
-	
-	
 }
+ 
+

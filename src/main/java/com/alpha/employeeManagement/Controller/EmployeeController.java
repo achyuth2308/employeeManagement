@@ -1,7 +1,5 @@
 package com.alpha.employeeManagement.Controller;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,46 +9,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.alpha.employeeManagement.ResponseStructure;
+import com.alpha.employeeManagement.DTO.EmployeeDTO;
 import com.alpha.employeeManagement.Entity.Employee;
 import com.alpha.employeeManagement.Service.EmployeeService;
 
 import jakarta.validation.Valid;
-
-@RestController
+@RestController 
 public class EmployeeController {
 	
-	@Autowired
-	private EmployeeService es;
+	@Autowired private EmployeeService employeeservice;
 	
-	@PostMapping("/saveEmployee")
-	public ResponseEntity<ResponseStructure<Employee>> saveEmployee( @RequestBody Employee employee) {
-        return es.saveEmp(employee);
- 
-	}
-	@GetMapping("/findEmployee")
-	public ResponseEntity<ResponseStructure<Employee>> findEmployee( @RequestParam int id){
-		return es.findById(id);
-		
+	@PostMapping("/registerEmployee") 
+	public ResponseEntity<ResponseStructure<Employee>> RegisterEmployeeDTO(@Valid @RequestBody EmployeeDTO employeeDTO) {
+			return employeeservice.RegisterEmployeeDTO(employeeDTO);
 	}
 	
-	@PutMapping("/updateemploye")
-	public ResponseEntity<ResponseStructure<Employee>> updateemployee(@RequestParam int id ,@RequestParam String role , @RequestParam double salary){
-		
-		return es.updateemployee(id,role,salary);
-		
+	@GetMapping("/findEmployee") 
+	public ResponseEntity<ResponseStructure<Employee>> findEmployee(@RequestParam int id) {
+			return employeeservice.findEmployee(id); 
 	}
 	
-	@DeleteMapping("/deleteemployee")
-	public ResponseEntity<ResponseStructure<Employee>> deleteemployee(@RequestParam int id){
-		
-		return es.deleteemployee(id);
+	@PutMapping("/updateEmployee") 
+	public ResponseEntity<ResponseStructure<Employee>> updateEmployee(@RequestParam int id , @RequestParam int salary) { 
+			return employeeservice.updateEmployee(id ,salary);
+	}
+	
+	@DeleteMapping("/deleteEmployee") 
+	public ResponseEntity<ResponseStructure<Employee>> deleteEmployee(@RequestParam int id) { return employeeservice.deleteEmployee(id);
 	}
 	
 	@GetMapping("/getAllEmployee")
-	public List<Employee> seeAllEmployees(){
-		return es.getAllEmployees();
+	public ResponseEntity<ResponseStructure<List<Employee>>> getAllEmployee() {
+		return employeeservice.getAllEmployee();
 	}
 	
 }
