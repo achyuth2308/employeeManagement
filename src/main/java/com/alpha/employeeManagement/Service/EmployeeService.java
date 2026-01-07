@@ -41,7 +41,7 @@ import jakarta.validation.Valid;
 	
 	public ResponseEntity<ResponseStructure<Employee>> findEmployee(int id) {
 		
-		Employee e = employeerepository.findById(id);
+		Optional<Employee> e = employeerepository.findById(id);
 		ResponseStructure<Employee> responseStructure = new ResponseStructure<Employee>();
 		responseStructure.setStatuscode(HttpStatus.FOUND.value());
 		responseStructure.setMessage("Employee with id "+id+" found");
@@ -52,13 +52,25 @@ import jakarta.validation.Valid;
 	
 	public ResponseEntity<ResponseStructure<Employee>> updateEmployee(int id, int salary) {
 		
-		Employee e = employeerepository.findById(id);
-		e.setSalary(salary); employeerepository.save(e);
-		ResponseStructure<Employee> responseStructure = new ResponseStructure<Employee>();
-		responseStructure.setStatuscode(HttpStatus.FOUND.value());
-		responseStructure.setMessage("Salary Updated");
-		responseStructure.setData(e);
-		return ResponseEntity.ok(responseStructure);
+		Optional<Employee> optionalEmployee = employeerepository.findById(id);
+
+	    if (optionalEmployee.isEmpty()) {
+	        ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
+	        responseStructure.setStatuscode(HttpStatus.NOT_FOUND.value());
+	        responseStructure.setMessage("Employee not found with id " + id);
+	        return new ResponseEntity<>(responseStructure, HttpStatus.NOT_FOUND);
+	    }
+
+	    Employee employee = optionalEmployee.get(); // ✅ extract Employee
+	    employee.setSalary(salary);
+	    employeerepository.save(employee);
+
+	    ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
+	    responseStructure.setStatuscode(HttpStatus.OK.value());
+	    responseStructure.setMessage("Salary Updated Successfully");
+	    responseStructure.setData(employee);
+
+	    return ResponseEntity.ok(responseStructure);
 	}
 	
 	//Deleting Employee 
