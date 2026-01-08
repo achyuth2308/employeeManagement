@@ -1,5 +1,6 @@
 package com.alpha.employeeManagement.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,4 +151,55 @@ public class PayrollService {
 
         return dto;
     }
+    
+    public List<PayrollResponseDTO> getWorkedMonthsPayroll(int employeeId) {
+
+        List<Payroll> payrolls =
+                payrollRepository.findByEmployee_Id(employeeId);
+
+        if (payrolls.isEmpty()) {
+            throw new RuntimeException("No payroll data found");
+        }
+
+        List<PayrollResponseDTO> list = new ArrayList<>();
+
+        for (Payroll payroll : payrolls) {
+
+            PayrollResponseDTO dto = new PayrollResponseDTO();
+
+            Employee employee = payroll.getEmployee();
+            dto.setEmployeeId(employee.getId());
+            dto.setEmployeeName(employee.getName());
+            dto.setRole(employee.getRole());
+
+            dto.setMonth(payroll.getMonth());
+            dto.setYear(payroll.getYear());
+
+            dto.setBasicSalary(payroll.getBasicSalary());
+            dto.setHra(payroll.getHra());
+            dto.setBonus(payroll.getBonus());
+
+            dto.setGrossSalary(payroll.getGrossSalary());
+            dto.setPf(payroll.getPf());
+            dto.setDeductions(payroll.getDeductions());
+            dto.setNetSalary(payroll.getNetSalary());
+
+            // Fetch BankAccount and PFDetails for this employee
+            BankAccount bankAccount = bankAccountRepository.findById(employee.getId())
+                    .orElseThrow(() -> new RuntimeException("Bank account not found"));
+
+            PFDetails pfDetails = pfDetailsRepository.findByEmployee_Id(employee.getId())
+                    .orElseThrow(() -> new RuntimeException("PF details not found"));
+
+            dto.setBankName(bankAccount.getBankName());
+            dto.setIfscCode(bankAccount.getIfscCode());
+            dto.setPfUanNumber(pfDetails.getUanNumber());
+
+            list.add(dto);
+        }
+
+        return list;
+
+    }
+
 }

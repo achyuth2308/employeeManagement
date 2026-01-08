@@ -30,4 +30,18 @@ public class PaySlipPDFController {
 
         payslipPdfService.generatePayslipPdf(employeeId, month, year, response);
     }
+    
+    @GetMapping("/payslip/pdf/all/{employeeId}")
+    public void downloadAllPayslips(
+            @PathVariable int employeeId,
+            HttpServletResponse response) throws Exception {
+
+        response.setContentType("application/pdf");
+        response.setHeader(
+                "Content-Disposition",
+                "attachment; filename=all_payslips_" + employeeId + ".pdf"
+        );
+
+        payslipPdfService.generateMultiMonthPayslipPdf(employeeId, response);
+    }
 }
