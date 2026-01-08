@@ -1,5 +1,7 @@
 package com.alpha.employeeManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,7 @@ public class Payroll {
     private double hra;
     private double pf;
     private double bonus;
+    
     private double deductions;
 
     private double grossSalary;
